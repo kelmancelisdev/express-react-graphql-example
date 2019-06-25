@@ -1,6 +1,6 @@
-const { Schema, Model } = requiere("mongoose");
+const { Schema, model } = require("mongoose");
 
-const BookSchema = new Schema({
+let BookSchema = new Schema({
   id: String,
   isbn: String,
   title: String,
@@ -10,4 +10,4 @@ const BookSchema = new Schema({
   update_date: { type: Date, default: Date.now }
 });
 
-module.exports = Model("Book", BookSchema);
+module.exports = model("Book", BookSchema);

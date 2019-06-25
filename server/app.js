@@ -1,15 +1,17 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const graphqlHTTP = require("express-graphql");
+const cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var app = express();
+const app = express();
 
 // connect db
 
@@ -20,6 +22,27 @@ mongoose
   })
   .then(() => console.log("connection successful"))
   .catch(err => console.error(err));
+
+// graphQl
+
+const schema = require("./graphql/bookSchema");
+
+function loggingMiddleware(req, res, next) {
+  console.log("ip:", req.ip);
+  next();
+}
+
+app.use("*", cors());
+app.use(loggingMiddleware);
+app.use(
+  "/graphql",
+  cors(),
+  graphqlHTTP({
+    schema: schema,
+    rootValue: global,
+    graphiql: true
+  })
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
