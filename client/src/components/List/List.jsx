@@ -7,6 +7,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
+import Icon from "@material-ui/core/Icon";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,11 +18,17 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: "inline"
+  },
+  fab: {
+    margin: theme.spacing(1)
   }
 }));
 
-export default function ListBooks({ books }) {
+export default function ListComponent({ books }) {
   const classes = useStyles();
+  const handleEdit = book => {
+    console.log(book);
+  };
 
   return (
     <List className={classes.root}>
@@ -44,6 +53,17 @@ export default function ListBooks({ books }) {
                 </React.Fragment>
               }
             />
+            <Fab
+              color="secondary"
+              aria-label="Edit"
+              className={classes.fab}
+              onClick={() => handleEdit(book)}
+            >
+              <Icon>edit_icon</Icon>
+            </Fab>
+            <Fab aria-label="Delete" className={classes.fab}>
+              <DeleteIcon />
+            </Fab>
           </ListItem>
         );
       })}
